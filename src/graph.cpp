@@ -11,12 +11,8 @@ Edge::Edge(Node *a, Node *b, string& iw, string& ow)
 {
 	node[0] = a; 
 	node[1] = b;
-	for(int i=0; i<iw.size(); i++) {
-		input_weight.push_back(iw[i]);
-	}		
-	for(int i=0; i<iw.size(); i++) {
-		output_weight.push_back(ow[i]);
-	}	
+	input_weight = iw;	
+	output_weight = ow;	
 }
 
 bool Edge::operator < (const Edge& rhs) const{
@@ -34,13 +30,6 @@ bool Edge::operator < (const Edge& rhs) const{
 	if ( id1b == id2b ) return id1a < id2a;
 
 	return output_weight < rhs.output_weight;
-}
-Node * Edge::getNeighbor(Node *n)
-{
-	if ( node[0] == n ) return node[1];
-	if ( node[1] == n ) return node[0];
-
-	return 0;	
 }
 
 
@@ -68,7 +57,6 @@ bool edgeComp( const Edge* A, const Edge* B ){
 	return false;
 }
 
-
 void Node::sortEdgeIn()
 {
     sort(edge_in.begin(), edge_in.end(), edgeComp);
@@ -85,10 +73,7 @@ void Node::sortEdgeInByOutputWeight()
 }
 
 
-Graph::Graph(const string& n)
-{
-	name = n;
-}
+Graph::Graph() {}
 
 Graph::~Graph()
 {
@@ -217,12 +202,9 @@ void Graph::displayNodesAndEdges()
     for(int i=0; i<nodes.size();i++){
         cout << "s" << nodes[i]->id << ": " << endl;
         for(int j=0; j<nodes[i]->edge_out.size();j++){
-        	for(int k=0; k<nodes[i]->edge_out[j]->input_weight.size(); k++)
-        		cout << nodes[i]->edge_out[j]->input_weight[k];
-        	cout << " s" << nodes[i]->edge_out[j]->getNeighbor(nodes[i])->id << " ";
-        	for(int k=0; k<nodes[i]->edge_out[j]->output_weight.size(); k++)
-        		cout << nodes[i]->edge_out[j]->output_weight[k];
-        	cout << endl;
+        	cout << nodes[i]->edge_out[j]->input_weight;
+        	cout << " s" << nodes[i]->edge_out[j]->node[1]->id << " ";
+        	cout << nodes[i]->edge_out[j]->output_weight << endl;
         }
         cout << endl;
     }

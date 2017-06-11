@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 	}	
 	assertion_rule.displayAssertionRules();
 	
-	Graph fsm("Final project is very hard!");
+	Graph fsm;
 	vector < vector <int> > adj_list;
     vector < vector <string> > input_list;
     vector < vector <string> > output_list;

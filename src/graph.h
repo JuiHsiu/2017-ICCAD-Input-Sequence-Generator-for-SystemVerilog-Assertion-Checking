@@ -25,13 +25,10 @@ class Edge{
 	public:
 		Edge(Node *a, Node *b, string& iw, string& ow);
 		Node* node[2]; // node[0] ---> node[1]
-		vector<char> input_weight;
-		vector<char> output_weight;
-
-		Node *getNeighbor(Node *n);
+		string input_weight;
+		string output_weight;
 
 		bool operator < (const Edge& rhs) const;
-
 };
 
 class Node{
@@ -57,7 +54,7 @@ class Node{
 class Graph{
 
 	public:
-		Graph(const string& n);
+		Graph();
 		~Graph();
 		
 		void addEdge(const int& v1, const int& v2, string& iw, string& ow);
@@ -73,7 +70,6 @@ class Graph{
 		map<int, Node *> nodesMap;
 		vector<Node *> nodes;
 		vector<Edge *> edges;
-		string name;
 };
 #include "graph.cpp"
 #endif
