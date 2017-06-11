@@ -1,5 +1,5 @@
-#ifndef ASSERTION_H
-#define ASSERTION_H
+#ifndef ASSERTION_RULE_H
+#define ASSERTION_RULE_H
 
 #include <cstring>
 #include <vector>
