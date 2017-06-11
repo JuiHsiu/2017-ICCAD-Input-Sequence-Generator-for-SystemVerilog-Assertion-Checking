@@ -24,21 +24,22 @@ class Path_Judge
         Path_Judge();
         vector<string> in_weight_seq;
         vector<string> out_weight_seq;
-        // Functions
-        int target_assertion(AssertionRule asrt);
+
+        // Principle Functions
         vector <string> decide(AssertionRule& arst, vector <string> input_lib,  vector< vector<Edge *> >& edges);
         vector <string> out_weight_generator();
-        void path_maker( int seq , vector<string>& input_lib,  vector< vector<Edge *> >& edges);
-        void initializer(vector<string>& input_lib , vector< vector<Edge *> > edges);
+
 
     private:
-
+        int target_assertion(AssertionRule asrt);
+        void path_maker( int seq , vector<string>& input_lib,  vector< vector<Edge *> >& edges);
+        void initializer(vector<string>& input_lib , vector< vector<Edge *> > edges);
         bool trigger;
         int NOT_triggered;
         string iPrev;       // path_maker()
         string zero;        // initializer()
         int  end,start,bit; // decide()
-        char R_F, nR_F;           // decide()
+        char R_F, nR_F;     // decide()
 };
 
 #include "Path_Judge.cpp"
