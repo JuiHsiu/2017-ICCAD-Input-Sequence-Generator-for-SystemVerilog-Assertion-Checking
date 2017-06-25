@@ -2,37 +2,42 @@
 
 Rule::Rule(int num, string req, string delay, string ack) {
 	id = num;
-	
+
 	int temp = req.find("[");
 	req_action = req.substr(0, 4);
 	req_type = req.substr(5, temp-5);
 	req_number = atoi(req.substr(temp+1, req.length()-temp-3).c_str());
-	
+
 	temp = delay.find(":");
 	delay_start = atoi(delay.substr(1, temp-1).c_str());
 	delay_end = atoi(delay.substr(temp+1, delay.length()-temp-2).c_str());
-	
+
 	temp = ack.find("[");
 	ack_action = ack.substr(0, 4);
 	ack_type = ack.substr(5, temp-5);
 	ack_number = atoi(ack.substr(temp+1, ack.length()-temp-3).c_str());
-	
+
 	flag = true;
 }
 
-void Rule::ruleChecker(vector<string>& in_weight_seq, vector<string>& out_weight_seq) {	
+void Rule::ruleChecker(vector<string>& in_weight_seq, vector<string>& out_weight_seq) {
+	int input_size = in_weight_seq[1].size();
+	int output_size = out_weight_seq[1].size();
+//	cout << "input_size is " << input_size << endl;
+//	cout << "output_size is " << output_size << endl;
+	
 	// trigger
 	vector<int> clock;
 	if(req_type == "in") {
 		if(req_action == "rose") {
 			for(int i=0;i<in_weight_seq.size();i++) {
-				if(i != 0 && (in_weight_seq[i][req_number] == '1') && (in_weight_seq[i-1][req_number] == '0'))
+				if(i != 0 && (in_weight_seq[i][input_size-req_number-1] == '1') && (in_weight_seq[i-1][input_size-req_number-1] == '0'))
 					clock.push_back(i);
 			}
 		}
 		else {
 			for(int i=0;i<in_weight_seq.size();i++) {
-				if(i != 0 && (in_weight_seq[i][req_number] == '0') && (in_weight_seq[i-1][req_number] == '1'))
+				if(i != 0 && (in_weight_seq[i][input_size-req_number-1] == '0') && (in_weight_seq[i-1][input_size-req_number-1] == '1'))
 					clock.push_back(i);
 			}
 		}
@@ -40,40 +45,47 @@ void Rule::ruleChecker(vector<string>& in_weight_seq, vector<string>& out_weight
 	else {
 		if(req_action == "rose") {
 			for(int i=0;i<out_weight_seq.size();i++) {
-				if(i != 0 && (out_weight_seq[i][req_number] == '1') && (out_weight_seq[i-1][req_number] == '0'))
+				if(i != 0 && (out_weight_seq[i][output_size-req_number-1] == '1') && (out_weight_seq[i-1][output_size-req_number-1] == '0'))
 					clock.push_back(i);
 			}
 		}
 		else {
 			for(int i=0;i<out_weight_seq.size();i++) {
-				if(i != 0 && (out_weight_seq[i][req_number] == '0') && (out_weight_seq[i-1][req_number] == '1'))
+				if(i != 0 && (out_weight_seq[i][output_size-req_number-1] == '0') && (out_weight_seq[i-1][output_size-req_number-1] == '1'))
 					clock.push_back(i);
 			}
 		}
 	}
 	
+	// print clock
+//	cout << "rule " << id << " has clock: ";
+//	for(int i=0; i<clock.size(); i++) {
+//		cout << clock[i] << " ";
+//	}
+//	cout << endl;
+
 	// remaining rule
-	for(int i=0;i<clock.size();i++) {
+	for(int i=0; i<clock.size(); i++) {
 		// rules must go to Cycle node
 		if(in_weight_seq.size() - clock[i] < delay_start) {
 			flag = false;
 			break;
-		}	
+		}
 		// rules may be expired or failed
-		else { 
+		else {
 			int temp = clock[i] + delay_start;
 			if(ack_type == "in") {
 				if(ack_action == "rose") {
 					for(int j=0;j<=delay_end-delay_start;j++) {
-						if((in_weight_seq[temp+j][ack_number] == '1') && (in_weight_seq[temp+j-1][ack_number] == '0'))
+						if((in_weight_seq[temp+j][input_size-ack_number-1] == '1') && (in_weight_seq[temp+j-1][input_size-ack_number-1] == '0'))
 							break;
 						else
-							flag = false;				
+							flag = false;
 					}
 				}
 				else {
 					for(int j=0;j<=delay_end-delay_start;j++) {
-						if((in_weight_seq[temp+j][ack_number] == '0') && (in_weight_seq[temp+j-1][ack_number] == '1'))
+						if((in_weight_seq[temp+j][input_size-ack_number-1] == '0') && (in_weight_seq[temp+j-1][input_size-ack_number-1] == '1'))
 							break;
 						else
 							flag = false;
@@ -83,27 +95,65 @@ void Rule::ruleChecker(vector<string>& in_weight_seq, vector<string>& out_weight
 			else {
 				if(ack_action == "rose") {
 					for(int j=0;j<=delay_end-delay_start;j++) {
-						if((out_weight_seq[temp+j][ack_number] == '1') && (out_weight_seq[temp+j-1][ack_number] == '0'))
+						if((out_weight_seq[temp+j][output_size-ack_number-1] == '1') && (out_weight_seq[temp+j-1][output_size-ack_number-1] == '0'))
 							break;
 						else
-							flag = false;				
+							flag = false;
 					}
 				}
 				else {
 					for(int j=0;j<=delay_end-delay_start;j++) {
-						if((out_weight_seq[temp+j][ack_number] == '0') && (out_weight_seq[temp+j-1][ack_number] == '1'))
+						if((out_weight_seq[temp+j][output_size-ack_number-1] == '0') && (out_weight_seq[temp+j-1][output_size-ack_number-1] == '1'))
 							break;
 						else
-							flag = false;				
+							flag = false;
 					}
 				}
-			}			
+			}
 		}
 	}
 }
 
 
-void AssertionRule::addAsertionRules(int num, string req, string delay, string ack) {	
+//bool Rule::inPathTrigger (vector<string> in_weight_seq, vector<string> out_weight_seq) {
+//	// trigger
+//	if(req_type == "in") {
+//		if(req_action == "rose") {
+//			for(int i=0;i<in_weight_seq.size();i++) {
+//				if(i != 0 && (in_weight_seq[i][req_number] == '1') && (in_weight_seq[i-1][req_number] == '0'))
+//					return 1;
+//			}
+//			return 0;
+//		}
+//		else {
+//			for(int i=0;i<in_weight_seq.size();i++) {
+//				if(i != 0 && (in_weight_seq[i][req_number] == '0') && (in_weight_seq[i-1][req_number] == '1'))
+//					return 1;
+//			}
+//			return 0;
+//		}
+//	}
+//	else {
+//		if(req_action == "rose") {
+//			for(int i=0;i<out_weight_seq.size();i++) {
+//				if(i != 0 && (out_weight_seq[i][req_number] == '1') && (out_weight_seq[i-1][req_number] == '0'))
+//					return 1;
+//			}
+//			return 0;
+//		}
+//		else {
+//			for(int i=0;i<out_weight_seq.size();i++) {
+//				if(i != 0 && (out_weight_seq[i][req_number] == '0') && (out_weight_seq[i-1][req_number] == '1'))
+//					return 1;
+//			}
+//			return 0;
+//		}
+//	}
+//}
+
+
+
+void AssertionRule::addAsertionRules(int num, string req, string delay, string ack) {
 	Rule* r = new Rule(num, req, delay, ack);
 	rules.push_back(r);
 }

@@ -13,6 +13,7 @@
 #include <string>
 #include <cstring>
 #include <fstream>
+#include <iostream>
 
 #define DIS_INF 2147483647
 
@@ -57,6 +58,7 @@ class Graph{
 		Graph();
 		~Graph();
 		
+		void initializeWithVector(vector < vector <int> >& adj_list, vector < vector <string> >& input_list, vector < vector <string> >& output_list);
 		void addEdge(const int& v1, const int& v2, string& iw, string& ow);
 		void sortEdgesInOfNode();
 		void sortEdgesByInputWeight();
@@ -70,6 +72,7 @@ class Graph{
 		map<int, Node *> nodesMap;
 		vector<Node *> nodes;
 		vector<Edge *> edges;
+		vector<int> cycle_node;		
 };
 #include "graph.cpp"
 #endif

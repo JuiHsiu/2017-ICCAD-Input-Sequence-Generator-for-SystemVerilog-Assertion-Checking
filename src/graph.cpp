@@ -212,9 +212,17 @@ void Graph::displayNodesAndEdges()
 
 void Graph::countCycleNode()
 {
-	for(int i=0;i<edges.size();i++){
-		if(edges[i]->node[0]==edges[i]->node[1])
-			cout << "Cycle Node = s" << edges[i]->node[0]->id << endl;
+	for(int i=0; i<edges.size(); i++){
+		if(edges[i]->node[0]==edges[i]->node[1]){
+//			cout << "Cycle Node = s" << edges[i]->node[0]->id << endl;
+			if(cycle_node.empty())
+				cycle_node.push_back(edges[i]->node[0]->id);
+			else if(cycle_node.back()!=edges[i]->node[0]->id)
+				cycle_node.push_back(edges[i]->node[0]->id);
+		}
+	}
+	for(int i=0; i<cycle_node.size(); i++){
+			cout << "Cycle Node in vector = s" << cycle_node[i] << endl;
 	}
 }
 

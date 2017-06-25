@@ -64,8 +64,8 @@ void fsm_parser(char *filename, vector<vector<int> >& adj_list, vector<vector<st
 
          else if (pos_input > 1 && pos_cnnct_nd > 8 && pos_output > 1){         // this line matchs the description for input, connecting nodes and ouput
 
-            input_str       =   str.substr(pos_input    ,str.find(":") - pos_input);
-            output_str      =   str.substr(pos_output   ,str.find(";",pos_output) - pos_output);
+            input_str       =   str.substr(pos_input+1    ,str.find(":") - pos_input -1);
+            output_str      =   str.substr(pos_output+1   ,str.find(";",pos_output) - pos_output-1);
             cnnct_nd_str    =   str.substr(pos_cnnct_nd ,str.find(";") - pos_cnnct_nd);
             cnnct_nd        =   atoi(cnnct_nd_str.c_str());
 
@@ -86,7 +86,7 @@ void fsm_parser(char *filename, vector<vector<int> >& adj_list, vector<vector<st
 
 
     fin.close();
-    
+
 //    return 0;
 }
 
