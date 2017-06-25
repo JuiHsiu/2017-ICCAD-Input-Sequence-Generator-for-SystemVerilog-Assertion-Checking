@@ -37,7 +37,7 @@ class Path_Judge
 
         void assertion_cleaner(AssertionRule asrt, vector< vector<Edge *> >& tmp_edge_path , vector<Edge *>  selected_edges, vector <string>& input_lib );
         void trigger_in_cycle(AssertionRule asrt, vector< vector<Edge *> >& tmp_edge_path , vector<Edge *>  selected_edges, vector <string>& input_lib);
-        void cycle_path_maker( AssertionRule asrt, vector<Edge *>  selected_edges , vector <string> input_lib);
+        void cycle_path_maker( AssertionRule asrt, vector<Edge *>  selected_edges , vector <string> &input_lib);
         void Max_delay( AssertionRule asrt);
 
 

@@ -22,7 +22,7 @@ int Path_Judge::target_assertion(AssertionRule asrt){
         if ( asrt.rules[i] -> flag == true  ){
             return i;
         }
-        
+
 		if(i == asrt.rules.size()-1){
 			if(NOT_triggered == -1){
             	cout<<"all assertions already failed!"<<endl;
@@ -30,12 +30,12 @@ int Path_Judge::target_assertion(AssertionRule asrt){
             	return 0;
         	}
         	else{
-        		random = 1;        		
+        		random = 1;
 			}
-        	
-            
+
+
         }
-        
+
     }
 }
 
@@ -120,7 +120,7 @@ void Path_Judge::decide(AssertionRule& asrt, vector <string>& input_lib, vector<
         random = 0;
 
         while ( trigger == 0){
-        	
+
             int i = target_assertion(asrt);
             	bit     =    asrt.rules[i] -> req_number;
 			    cout<<"targetted assertion rule is = "<<asrt.rules[i]->id<< endl;
@@ -130,7 +130,7 @@ void Path_Judge::decide(AssertionRule& asrt, vector <string>& input_lib, vector<
 //        			cout<<"asrt.rules "<<asrt.rules[i]->id<<" is " <<asrt.rules[i]-> flag <<endl;
 //                    cout<<"asrt.rules.size() = "<<asrt.rules.size()<<endl;
 //        		}
-                
+
 				// adjust the bit
 				out_bit = edges[0][0]->output_weight.size()-bit-1;
 				bit = edges[0][0]->input_weight.size()-bit-1;
@@ -144,13 +144,13 @@ void Path_Judge::decide(AssertionRule& asrt, vector <string>& input_lib, vector<
                 start   = (  end < edges[j].size()+1 ? edges[j].size() - end : 0 );
                 R_F     = (  asrt.rules[i] -> req_action == "rose" ? '0' : '1');
                 nR_F     = (  asrt.rules[i] -> req_action == "rose" ? '1' : '0');
-                
+
 
 
 
                 if ( asrt.rules[i]->req_type[0] == 'o'){ // case : output
                     for ( int E = start ; E < edges[j].size()-1 && trigger == 0 ; E ++) {
-                    
+
                         if ( edges[j][E] -> output_weight[out_bit]   ==  R_F &&
                              edges[j][E+1] -> output_weight[out_bit] == nR_F    ){
                              path_maker( j, asrt,input_lib, edges,1,1);
@@ -280,7 +280,7 @@ void Path_Judge::trigger_in_cycle(AssertionRule asrt,vector< vector<Edge *> >& t
     tmp_edge_path[0].clear();
 }
 
-void Path_Judge::cycle_path_maker( AssertionRule asrt, vector<Edge *>  selected_edges, vector <string> input_lib ){
+void Path_Judge::cycle_path_maker( AssertionRule asrt, vector<Edge *>  selected_edges, vector <string>& input_lib ){
     vector< vector<Edge *> > tmp_edge_path;
     for (int y = 0; y < 1 ; y++){
         tmp_edge_path.push_back(vector<Edge *> {});
