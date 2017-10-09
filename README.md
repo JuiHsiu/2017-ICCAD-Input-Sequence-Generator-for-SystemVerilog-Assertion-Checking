@@ -9,3 +9,7 @@ author:
 2. DungHan Lee 
 
    email: dhl77771@gmail.com
+
+3. Brady Huang 
+
+   email: brady800526@gmail.com
