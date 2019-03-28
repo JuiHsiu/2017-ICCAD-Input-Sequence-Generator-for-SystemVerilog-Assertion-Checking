@@ -4,7 +4,7 @@
 author:
 1. JuiHsiu Hsu
 
-    email: b02502006@ntu.edu.tw
+    email: juihsiuhsu@gmail.com
     
 2. DungHan Lee 
 
